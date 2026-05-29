@@ -1,13 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { letters } from '../data/alphabet.js'
-import { speak, ttsSupported } from '../speak.js'
+import { speak, ttsSupported, hasGermanVoice } from '../speak.js'
+
+// Speak the explicit `say` form when set, otherwise the bare letter.
+const sayLetter = (item) => speak(item.say || item.letter, 'de-DE')
 
 export default function Alphabet() {
   const [selected, setSelected] = useState(letters[0])
+  const [noGermanVoice, setNoGermanVoice] = useState(false)
+
+  // Voices load asynchronously; re-check when the list changes so we don't
+  // flash a false "no German voice" warning before voices are ready.
+  useEffect(() => {
+    if (!ttsSupported) return
+    const check = () => setNoGermanVoice(!hasGermanVoice())
+    check()
+    window.speechSynthesis.addEventListener?.('voiceschanged', check)
+    return () => window.speechSynthesis.removeEventListener?.('voiceschanged', check)
+  }, [])
 
   function pick(item) {
     setSelected(item)
-    speak(item.letter, 'de-DE')
+    sayLetter(item)
   }
 
   return (
@@ -17,6 +31,13 @@ export default function Alphabet() {
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Tap a letter to hear it and see an example word.
         </p>
+        {noGermanVoice && (
+          <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-500/10 dark:text-amber-300">
+            ⚠️ No German voice found on this device, so letters may sound off. Install
+            a German voice (e.g. iOS: Settings → Accessibility → Spoken Content →
+            Voices → German) for correct, higher-quality audio.
+          </p>
+        )}
       </header>
 
       {/* Detail card for the selected letter */}
@@ -40,7 +61,7 @@ export default function Alphabet() {
         {ttsSupported && (
           <div className="mt-4 flex justify-center gap-2">
             <button
-              onClick={() => speak(selected.letter, 'de-DE')}
+              onClick={() => sayLetter(selected)}
               className="rounded-full bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500"
             >
               🔊 Buchstabe
