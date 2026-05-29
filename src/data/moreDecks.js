@@ -1,6 +1,19 @@
 // Extra A1 decks. Same card shape as germanA1.js:
 // { id, front, back, pos, example, exampleEn, speak }
 // Noun fronts keep their article (der/die/das) so the UI can colour-code gender.
+import { days, months, seasons } from './calendar.js'
+
+// Build flashcard cards from the shared calendar data so there's one source of truth.
+const calendarCards = (items) =>
+  items.map((it) => ({
+    id: it.id,
+    front: it.de,
+    back: it.en,
+    pos: 'noun',
+    example: it.example,
+    exampleEn: it.exampleEn,
+    speak: it.speak,
+  }))
 
 export const colorsDeck = {
   id: 'german-a1-colors',
@@ -21,35 +34,25 @@ export const colorsDeck = {
   ],
 }
 
-export const calendarDeck = {
-  id: 'german-a1-calendar',
-  name: 'German A1 — Tage, Monate & Jahreszeiten',
+export const daysDeck = {
+  id: 'german-a1-days',
+  name: 'German A1 — Wochentage (Days)',
   language: 'de-DE',
-  cards: [
-    { id: 'cal-01', front: 'der Montag', back: 'Monday', pos: 'noun', example: 'Am Montag arbeite ich.', exampleEn: 'On Monday I work.', speak: 'Montag' },
-    { id: 'cal-02', front: 'der Dienstag', back: 'Tuesday', pos: 'noun', example: 'Am Dienstag habe ich Deutsch.', exampleEn: 'On Tuesday I have German.', speak: 'Dienstag' },
-    { id: 'cal-03', front: 'der Mittwoch', back: 'Wednesday', pos: 'noun', example: 'Mittwoch ist die Mitte der Woche.', exampleEn: 'Wednesday is the middle of the week.', speak: 'Mittwoch' },
-    { id: 'cal-04', front: 'der Donnerstag', back: 'Thursday', pos: 'noun', example: 'Am Donnerstag gehe ich einkaufen.', exampleEn: 'On Thursday I go shopping.', speak: 'Donnerstag' },
-    { id: 'cal-05', front: 'der Freitag', back: 'Friday', pos: 'noun', example: 'Freitag ist mein Lieblingstag.', exampleEn: 'Friday is my favourite day.', speak: 'Freitag' },
-    { id: 'cal-06', front: 'der Samstag', back: 'Saturday', pos: 'noun', example: 'Am Samstag schlafe ich lange.', exampleEn: 'On Saturday I sleep in.', speak: 'Samstag' },
-    { id: 'cal-07', front: 'der Sonntag', back: 'Sunday', pos: 'noun', example: 'Am Sonntag besuche ich meine Familie.', exampleEn: 'On Sunday I visit my family.', speak: 'Sonntag' },
-    { id: 'cal-08', front: 'der Januar', back: 'January', pos: 'noun', example: 'Im Januar ist es kalt.', exampleEn: 'In January it is cold.', speak: 'Januar' },
-    { id: 'cal-09', front: 'der Februar', back: 'February', pos: 'noun', example: 'Der Februar ist kurz.', exampleEn: 'February is short.', speak: 'Februar' },
-    { id: 'cal-10', front: 'der März', back: 'March', pos: 'noun', example: 'Im März beginnt der Frühling.', exampleEn: 'Spring begins in March.', speak: 'März' },
-    { id: 'cal-11', front: 'der April', back: 'April', pos: 'noun', example: 'Im April regnet es oft.', exampleEn: 'In April it often rains.', speak: 'April' },
-    { id: 'cal-12', front: 'der Mai', back: 'May', pos: 'noun', example: 'Der Mai ist warm.', exampleEn: 'May is warm.', speak: 'Mai' },
-    { id: 'cal-13', front: 'der Juni', back: 'June', pos: 'noun', example: 'Im Juni werden die Tage lang.', exampleEn: 'In June the days get long.', speak: 'Juni' },
-    { id: 'cal-14', front: 'der Juli', back: 'July', pos: 'noun', example: 'Im Juli mache ich Urlaub.', exampleEn: 'In July I go on holiday.', speak: 'Juli' },
-    { id: 'cal-15', front: 'der August', back: 'August', pos: 'noun', example: 'Der August ist heiß.', exampleEn: 'August is hot.', speak: 'August' },
-    { id: 'cal-16', front: 'der September', back: 'September', pos: 'noun', example: 'Im September beginnt die Schule.', exampleEn: 'School starts in September.', speak: 'September' },
-    { id: 'cal-17', front: 'der Oktober', back: 'October', pos: 'noun', example: 'Im Oktober ist das Oktoberfest.', exampleEn: 'The Oktoberfest is in October.', speak: 'Oktober' },
-    { id: 'cal-18', front: 'der November', back: 'November', pos: 'noun', example: 'Der November ist grau.', exampleEn: 'November is grey.', speak: 'November' },
-    { id: 'cal-19', front: 'der Dezember', back: 'December', pos: 'noun', example: 'Im Dezember ist Weihnachten.', exampleEn: 'Christmas is in December.', speak: 'Dezember' },
-    { id: 'cal-20', front: 'der Frühling', back: 'spring', pos: 'noun', example: 'Im Frühling blühen die Blumen.', exampleEn: 'In spring the flowers bloom.', speak: 'Frühling' },
-    { id: 'cal-21', front: 'der Sommer', back: 'summer', pos: 'noun', example: 'Im Sommer ist es warm.', exampleEn: 'In summer it is warm.', speak: 'Sommer' },
-    { id: 'cal-22', front: 'der Herbst', back: 'autumn / fall', pos: 'noun', example: 'Im Herbst fallen die Blätter.', exampleEn: 'In autumn the leaves fall.', speak: 'Herbst' },
-    { id: 'cal-23', front: 'der Winter', back: 'winter', pos: 'noun', example: 'Im Winter schneit es.', exampleEn: 'In winter it snows.', speak: 'Winter' },
-  ],
+  cards: calendarCards(days),
+}
+
+export const monthsDeck = {
+  id: 'german-a1-months',
+  name: 'German A1 — Monate (Months)',
+  language: 'de-DE',
+  cards: calendarCards(months),
+}
+
+export const seasonsDeck = {
+  id: 'german-a1-seasons',
+  name: 'German A1 — Jahreszeiten (Seasons)',
+  language: 'de-DE',
+  cards: calendarCards(seasons),
 }
 
 export const greetingsDeck = {
@@ -116,7 +119,9 @@ export const falseFriendsDeck = {
 
 export const moreDecks = [
   colorsDeck,
-  calendarDeck,
+  daysDeck,
+  monthsDeck,
+  seasonsDeck,
   greetingsDeck,
   cognatesDeck,
   falseFriendsDeck,

@@ -7,6 +7,10 @@ import Study from './pages/Study.jsx'
 import Stats from './pages/Stats.jsx'
 import Alphabet from './pages/Alphabet.jsx'
 import Numbers from './pages/Numbers.jsx'
+import Days from './pages/Days.jsx'
+import Months from './pages/Months.jsx'
+import Seasons from './pages/Seasons.jsx'
+import Tips from './pages/Tips.jsx'
 
 export default function App() {
   return (
@@ -19,6 +23,10 @@ export default function App() {
           <Route path="/study/:deckId" element={<Study />} />
           <Route path="/alphabet" element={<Alphabet />} />
           <Route path="/numbers" element={<Numbers />} />
+          <Route path="/days" element={<Days />} />
+          <Route path="/months" element={<Months />} />
+          <Route path="/seasons" element={<Seasons />} />
+          <Route path="/tips" element={<Tips />} />
           <Route path="/stats" element={<Stats />} />
         </Routes>
         <Footer />
