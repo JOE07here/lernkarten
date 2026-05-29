@@ -9,6 +9,8 @@ export default function Navbar() {
 
   const links = [
     { to: '/', label: 'Decks' },
+    { to: '/alphabet', label: 'Alphabet' },
+    { to: '/numbers', label: 'Numbers' },
     { to: '/stats', label: 'Progress' },
   ]
 
@@ -21,19 +23,22 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-1">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`rounded-md px-3 py-1.5 text-sm transition ${
-                pathname === l.to
-                  ? 'bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-white'
-                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {/* Section links live in the header on tablet/desktop; phones use the bottom bar */}
+          <div className="hidden items-center gap-1 sm:flex">
+            {links.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={`rounded-md px-3 py-1.5 text-sm transition ${
+                  pathname === l.to
+                    ? 'bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-white'
+                    : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                }`}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
 
           <button
             onClick={toggleTheme}
