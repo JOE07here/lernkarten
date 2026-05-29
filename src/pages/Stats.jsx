@@ -14,10 +14,10 @@ export default function Stats() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Your progress</h1>
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Your progress</h1>
 
       {loading ? (
-        <p className="text-slate-400">Loading…</p>
+        <p className="text-slate-500 dark:text-slate-400">Loading…</p>
       ) : (
         <>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -27,7 +27,7 @@ export default function Stats() {
             <Stat label="Due now" value={due} accent="text-sky-400" />
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
             <ProgressBar value={mastered} max={total} label="Mastery (interval ≥ 6 days)" />
             <div className="mt-4">
               <ProgressBar value={started} max={total} label="Cards started" />
@@ -39,11 +39,11 @@ export default function Stats() {
   )
 }
 
-function Stat({ label, value, accent = 'text-white' }) {
+function Stat({ label, value, accent = 'text-slate-900 dark:text-white' }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4 text-center">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 text-center dark:border-slate-800 dark:bg-slate-900">
       <p className={`text-3xl font-bold ${accent}`}>{value}</p>
-      <p className="mt-1 text-xs uppercase tracking-wide text-slate-400">{label}</p>
+      <p className="mt-1 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</p>
     </div>
   )
 }

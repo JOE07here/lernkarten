@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: `dark:` styles apply when <html> has the `dark` class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
+}
+html.dark {
   color-scheme: dark;
 }
 
@@ -11,7 +17,11 @@ html, body, #root {
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: #0f172a;
+  background: #f8fafc;
+  color: #0f172a;
+}
+html.dark body {
+  background: #020617;
   color: #e2e8f0;
 }
 

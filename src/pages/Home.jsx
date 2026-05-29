@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <section>
-        <h1 className="text-2xl font-bold text-white">Decks</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Decks</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           {user
             ? `Signed in — your progress syncs to the cloud.`
             : isFirebaseConfigured
@@ -29,12 +29,12 @@ export default function Home() {
         return (
           <div
             key={deck.id}
-            className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold text-white">{deck.name}</h2>
-                <p className="text-sm text-slate-400">{total} cards</p>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{deck.name}</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{total} cards</p>
               </div>
               <Link
                 to={`/study/${deck.id}`}
@@ -52,7 +52,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="mt-3 flex gap-4 text-xs text-slate-400">
+            <div className="mt-3 flex gap-4 text-xs text-slate-500 dark:text-slate-400">
               <span>🟢 {studied} started</span>
               <span>🔵 {due} due now</span>
               <span>⚪ {total - studied} new</span>

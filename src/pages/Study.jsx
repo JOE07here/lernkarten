@@ -24,20 +24,19 @@ export default function Study() {
 
   if (!deck) {
     return (
-      <div className="text-center text-slate-400">
-        Deck not found. <Link to="/" className="text-indigo-400">Back to decks</Link>
+      <div className="text-center text-slate-500 dark:text-slate-400">
+        Deck not found.{' '}
+        <Link to="/" className="text-indigo-500 dark:text-indigo-400">Back to decks</Link>
       </div>
     )
   }
 
   if (loading) {
-    return <div className="text-center text-slate-400">Loading your progress…</div>
+    return <div className="text-center text-slate-500 dark:text-slate-400">Loading your progress…</div>
   }
 
   if (queue.length === 0) {
-    return (
-      <Done deckName={deck.name} message="Nothing due right now. 🎉" />
-    )
+    return <Done deckName={deck.name} message="Nothing due right now. 🎉" />
   }
 
   if (index >= queue.length) {
@@ -47,15 +46,28 @@ export default function Study() {
   const cardId = queue[index]
   const card = deck.cards.find((c) => c.id === cardId)
 
+  // Move through the queue without grading (manual browsing).
+  function go(delta) {
+    setFlipped(false)
+    setIndex((i) => Math.min(queue.length, Math.max(0, i + delta)))
+  }
+
+  // Grade the card (updates SRS schedule) and advance.
   function handleRate(quality) {
     rate(cardId, quality)
     setFlipped(false)
     setIndex((i) => i + 1)
   }
 
+  const navBtn =
+    'rounded-xl border border-slate-300 px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800'
+
   return (
     <div className="space-y-5">
       <ProgressBar value={index} max={queue.length} label="This session" />
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+        Card {index + 1} of {queue.length}
+      </p>
 
       <Flashcard
         card={card}
@@ -64,15 +76,29 @@ export default function Study() {
         lang={deck.language}
       />
 
-      {flipped ? (
-        <RatingButtons state={stateFor(cardId)} onRate={handleRate} />
-      ) : (
-        <button
-          onClick={() => setFlipped(true)}
-          className="w-full rounded-xl bg-slate-700 py-3 font-medium text-white hover:bg-slate-600"
-        >
-          Show answer
+      {/* Previous · Show answer/Hide · Next */}
+      <div className="grid grid-cols-[auto_1fr_auto] gap-2">
+        <button onClick={() => go(-1)} disabled={index === 0} className={navBtn}>
+          ← Previous
         </button>
+        <button
+          onClick={() => setFlipped((f) => !f)}
+          className="rounded-xl bg-slate-200 py-3 font-medium text-slate-900 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600"
+        >
+          {flipped ? 'Hide answer' : 'Show answer'}
+        </button>
+        <button onClick={() => go(1)} className={navBtn}>
+          Next →
+        </button>
+      </div>
+
+      {flipped && (
+        <div className="space-y-1">
+          <p className="text-center text-xs text-slate-400 dark:text-slate-500">
+            How well did you know it?
+          </p>
+          <RatingButtons state={stateFor(cardId)} onRate={handleRate} />
+        </div>
       )}
     </div>
   )
@@ -80,9 +106,9 @@ export default function Study() {
 
 function Done({ deckName, message, reviewed }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
-      <p className="text-2xl font-bold text-white">{message}</p>
-      <p className="mt-2 text-sm text-slate-400">
+    <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center dark:border-slate-800 dark:bg-slate-900">
+      <p className="text-2xl font-bold text-slate-900 dark:text-white">{message}</p>
+      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         {reviewed ? `You reviewed ${reviewed} cards in ${deckName}.` : deckName}
       </p>
       <Link
