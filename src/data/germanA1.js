@@ -112,5 +112,7 @@ export const personalityDeck = {
   ],
 }
 
+import { moreDecks } from './moreDecks.js'
+
 export const deck = starterDeck
-export const decks = [starterDeck, personalityDeck]
+export const decks = [starterDeck, personalityDeck, ...moreDecks]

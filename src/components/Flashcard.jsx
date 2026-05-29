@@ -1,5 +1,23 @@
 import { speak, ttsSupported } from '../speak.js'
 
+const ARTICLE_COLOR = {
+  der: 'text-blue-500 dark:text-blue-400',
+  die: 'text-rose-500 dark:text-rose-400',
+  das: 'text-emerald-500 dark:text-emerald-400',
+}
+
+// Colour the article (der/die/das) on noun cards as a gender memory aid.
+function FrontWord({ card }) {
+  const base = 'text-4xl font-bold text-slate-900 dark:text-white'
+  const m = card.pos === 'noun' && /^(der|die|das)\s+(.+)/i.exec(card.front)
+  if (!m) return <p className={base}>{card.front}</p>
+  return (
+    <p className={base}>
+      <span className={ARTICLE_COLOR[m[1].toLowerCase()]}>{m[1]}</span> {m[2]}
+    </p>
+  )
+}
+
 export default function Flashcard({ card, flipped, onFlip, lang }) {
   return (
     <div className="[perspective:1200px]">
@@ -14,7 +32,7 @@ export default function Flashcard({ card, flipped, onFlip, lang }) {
           <span className="mb-3 rounded-full bg-slate-100 px-3 py-0.5 text-xs uppercase tracking-wide text-slate-500 dark:bg-slate-700 dark:text-slate-300">
             {card.pos}
           </span>
-          <p className="text-4xl font-bold text-slate-900 dark:text-white">{card.front}</p>
+          <FrontWord card={card} />
           {ttsSupported && (
             <button
               onClick={(e) => {

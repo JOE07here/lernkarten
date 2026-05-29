@@ -19,6 +19,12 @@ export default function Home() {
               ? `You're a guest. Progress is saved in this browser; sign in to sync.`
               : `Guest mode (Firebase not configured). Progress is saved in this browser.`}
         </p>
+        <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
+          <span>Noun colours:</span>
+          <span className="text-blue-500 dark:text-blue-400">der (m)</span>
+          <span className="text-rose-500 dark:text-rose-400">die (f)</span>
+          <span className="text-emerald-500 dark:text-emerald-400">das (n)</span>
+        </p>
       </section>
 
       {decks.map((deck) => {
