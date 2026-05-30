@@ -13,6 +13,7 @@ const groups = [
   {
     heading: 'Grammatik',
     links: [
+      { to: '/articles', label: 'Artikel (der/die/das)', icon: '🏷️' },
       { to: '/conjugation', label: 'Konjugation (Verbs)', icon: '🔧' },
       { to: '/sentences', label: 'Satzbau (Word order)', icon: '🧩' },
     ],
