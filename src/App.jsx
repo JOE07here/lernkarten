@@ -15,6 +15,8 @@ import Profile from './pages/Profile.jsx'
 import Conjugation from './pages/Conjugation.jsx'
 import Sentences from './pages/Sentences.jsx'
 import Articles from './pages/Articles.jsx'
+import Cases from './pages/Cases.jsx'
+import Practice from './pages/Practice.jsx'
 import Practice from './pages/Practice.jsx'
 
 export default function App() {
@@ -32,6 +34,7 @@ export default function App() {
           <Route path="/months" element={<Months />} />
           <Route path="/seasons" element={<Seasons />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/cases" element={<Cases />} />
           <Route path="/conjugation" element={<Conjugation />} />
           <Route path="/sentences" element={<Sentences />} />
           <Route path="/practice" element={<Practice />} />
