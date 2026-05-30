@@ -7,6 +7,14 @@ const groups = [
       { to: '/', label: 'Decks', icon: '📚', end: true },
       { to: '/alphabet', label: 'Alphabet', icon: '🔤' },
       { to: '/numbers', label: 'Zahlen (Numbers)', icon: '🔢' },
+      { to: '/practice', label: 'Übungen (Practice)', icon: '✍️' },
+    ],
+  },
+  {
+    heading: 'Grammatik',
+    links: [
+      { to: '/conjugation', label: 'Konjugation (Verbs)', icon: '🔧' },
+      { to: '/sentences', label: 'Satzbau (Word order)', icon: '🧩' },
     ],
   },
   {
