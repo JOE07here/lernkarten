@@ -33,15 +33,33 @@ npm run dev
 Open the printed URL. It works out of the box in **guest mode** (no Firebase
 needed). To enable Google login + cloud sync, set up Firebase below.
 
-## Firebase setup (for login + cloud sync)
+## Firebase setup (for login + user profiles + cloud sync)
 
-1. Create a project at <https://console.firebase.google.com>.
-2. **Authentication → Sign-in method →** enable **Google**.
-3. **Firestore Database →** create a database (production mode is fine).
-4. **Firestore → Rules →** paste the contents of [`firestore.rules`](./firestore.rules) and publish.
-5. **Project settings → Your apps →** add a **Web app**, copy the SDK config.
-6. `cp .env.example .env` and paste the values into `.env`.
-7. Restart `npm run dev`. The "Sign in" button now uses Google.
+1. Create a project at <https://console.firebase.google.com> (disable Analytics if you like).
+2. **Build → Authentication → Get started → Sign-in method →** enable **Google**
+   (pick a support email), Save.
+3. **Build → Firestore Database → Create database →** Production mode → choose a region.
+4. **Firestore → Rules →** paste [`firestore.rules`](./firestore.rules) and **Publish**.
+5. **Project settings (gear icon) → Your apps → Web (`</>`)** → register an app →
+   copy the `firebaseConfig` values.
+6. `cp .env.example .env` and paste each value into the matching `VITE_FIREBASE_*` line.
+7. Restart `npm run dev`. "Sign in" now uses Google; signing in creates a profile.
+
+### What gets stored
+
+On sign-in the app writes a document at **`users/{uid}`** in Firestore:
+
+```
+users/{uid} = {
+  profile:  { uid, displayName, email, photoURL, provider, createdAt, lastLoginAt },
+  progress: { <cardId>: { repetitions, interval, ease, dueDate, lastReview }, ... },
+  updatedAt
+}
+```
+
+The security rules ensure each user can read/write **only their own** document. Any
+progress you made as a guest (in `localStorage`) is merged into your account on first
+sign-in. View it all on the in-app **Profile** page.
 
 > When you deploy, add your live domain (e.g. `yourname.github.io`) under
 > **Authentication → Settings → Authorized domains**, or Google login popups

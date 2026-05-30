@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth'
 import { auth, googleProvider, isFirebaseConfigured } from '../firebase.js'
 import { mergeLocalIntoCloud } from '../storage/progress.js'
+import { saveUserProfile } from '../storage/profile.js'
 
 const AuthContext = createContext(null)
 
@@ -20,7 +21,11 @@ export function AuthProvider({ children }) {
     }
     return onAuthStateChanged(auth, async (u) => {
       setUser(u)
-      if (u) await mergeLocalIntoCloud(u)
+      if (u) {
+        // Save/refresh the user's profile, then merge any guest progress.
+        await saveUserProfile(u)
+        await mergeLocalIntoCloud(u)
+      }
       setLoading(false)
     })
   }, [])

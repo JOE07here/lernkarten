@@ -43,7 +43,12 @@ export function ProgressProvider({ children }) {
     [user],
   )
 
-  const value = { progress, loading, stateFor, rate, isDue }
+  const reset = useCallback(() => {
+    setProgress({})
+    saveProgress(user, {}).catch((e) => console.error('reset failed', e))
+  }, [user])
+
+  const value = { progress, loading, stateFor, rate, isDue, reset }
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>
 }
 

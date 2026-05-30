@@ -11,6 +11,7 @@ import Days from './pages/Days.jsx'
 import Months from './pages/Months.jsx'
 import Seasons from './pages/Seasons.jsx'
 import Tips from './pages/Tips.jsx'
+import Profile from './pages/Profile.jsx'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/months" element={<Months />} />
           <Route path="/seasons" element={<Seasons />} />
           <Route path="/tips" element={<Tips />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/stats" element={<Stats />} />
         </Routes>
         <Footer />

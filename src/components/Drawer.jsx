@@ -22,6 +22,7 @@ const groups = [
     links: [
       { to: '/tips', label: 'Lerntipps (Study tips)', icon: '🧠' },
       { to: '/stats', label: 'Fortschritt (Progress)', icon: '📊' },
+      { to: '/profile', label: 'Profil (Profile)', icon: '👤' },
     ],
   },
 ]
