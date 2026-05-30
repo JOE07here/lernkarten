@@ -11,8 +11,9 @@ const groups = [
     ],
   },
   {
-    heading: 'Grammatik',
+    heading: 'A1 Grammar',
     links: [
+      { to: '/grammar', label: 'Overview & resources', icon: '📖', end: true },
       { to: '/articles', label: 'Artikel (der/die/das)', icon: '🏷️' },
       { to: '/cases', label: 'Nominativ & Akkusativ', icon: '🎯' },
       { to: '/conjugation', label: 'Konjugation (Verbs)', icon: '🔧' },

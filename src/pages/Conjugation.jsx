@@ -51,12 +51,25 @@ function Trainer() {
   const [streak, setStreak] = useState(0)
 
   const answer = round.verb.forms[round.pron.key]
+  const answered = status !== 'typing'
+
+  // Forgiving compare: case-insensitive, and accept ASCII umlaut spellings
+  // (ae/oe/ue/ss) so learners without a German keyboard aren't blocked.
+  function normalize(s) {
+    return s
+      .trim()
+      .toLowerCase()
+      .replaceAll('ä', 'ae')
+      .replaceAll('ö', 'oe')
+      .replaceAll('ü', 'ue')
+      .replaceAll('ß', 'ss')
+  }
 
   function check(e) {
     e?.preventDefault()
-    if (status === 'correct') return
-    const ok = value.trim().toLowerCase() === answer.toLowerCase()
-    if (ok) {
+    if (answered) return
+    if (!value.trim()) return
+    if (normalize(value) === normalize(answer)) {
       setStatus('correct')
       setScore((s) => s + 1)
       setStreak((s) => s + 1)
@@ -65,6 +78,12 @@ function Trainer() {
       setStatus('wrong')
       setStreak(0)
     }
+  }
+  function reveal() {
+    if (answered) return
+    setStatus('revealed')
+    setStreak(0)
+    if (ttsSupported) speak(`${round.pron.say} ${answer}`, 'de-DE')
   }
   function next() {
     setRound(randomRound())
@@ -92,36 +111,49 @@ function Trainer() {
           autoFocus
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          disabled={answered}
           placeholder="type the verb form"
-          className={`mt-4 w-full max-w-xs rounded-lg border bg-white px-3 py-2 text-center text-lg text-slate-900 outline-none dark:bg-slate-800 dark:text-white ${
+          className={`mt-4 w-full max-w-xs rounded-lg border bg-white px-3 py-2 text-center text-lg text-slate-900 outline-none disabled:opacity-70 dark:bg-slate-800 dark:text-white ${
             status === 'correct'
               ? 'border-emerald-500'
               : status === 'wrong'
                 ? 'border-rose-500'
-                : 'border-slate-300 focus:border-indigo-500 dark:border-slate-700'
+                : status === 'revealed'
+                  ? 'border-indigo-500'
+                  : 'border-slate-300 focus:border-indigo-500 dark:border-slate-700'
           }`}
         />
 
         {status === 'correct' && (
           <p className="mt-3 font-semibold text-emerald-600 dark:text-emerald-400">
-            ✓ {round.pron.label} <b>{answer}</b>
+            ✓ Richtig! {round.pron.label} <b>{answer}</b>
           </p>
         )}
         {status === 'wrong' && (
           <p className="mt-3 text-sm text-rose-600 dark:text-rose-400">
-            Not quite — the answer is <b>{answer}</b>.
+            ✗ Not quite. The answer is <b className="text-slate-900 dark:text-white">{round.pron.label} {answer}</b>.
+          </p>
+        )}
+        {status === 'revealed' && (
+          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Answer: <b className="text-slate-900 dark:text-white">{round.pron.label} {answer}</b>
           </p>
         )}
 
         <div className="mt-4 flex justify-center gap-2">
-          {status === 'typing' ? (
-            <button type="submit" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-500">Check</button>
-          ) : (
-            <button type="button" onClick={next} className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-500">Next →</button>
+          {!answered && (
+            <>
+              <button type="submit" className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-500">
+                Check
+              </button>
+              <button type="button" onClick={reveal} className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                Show answer
+              </button>
+            </>
           )}
-          {status !== 'correct' && (
-            <button type="button" onClick={() => setStatus('wrong')} className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-              Show answer
+          {answered && (
+            <button type="button" onClick={next} className="rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-500">
+              Next →
             </button>
           )}
         </div>

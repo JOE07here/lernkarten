@@ -17,6 +17,7 @@ import Sentences from './pages/Sentences.jsx'
 import Articles from './pages/Articles.jsx'
 import Cases from './pages/Cases.jsx'
 import Practice from './pages/Practice.jsx'
+import Grammar from './pages/Grammar.jsx'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/days" element={<Days />} />
           <Route path="/months" element={<Months />} />
           <Route path="/seasons" element={<Seasons />} />
+          <Route path="/grammar" element={<Grammar />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/cases" element={<Cases />} />
           <Route path="/conjugation" element={<Conjugation />} />
