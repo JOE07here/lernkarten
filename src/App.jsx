@@ -17,7 +17,6 @@ import Sentences from './pages/Sentences.jsx'
 import Articles from './pages/Articles.jsx'
 import Cases from './pages/Cases.jsx'
 import Practice from './pages/Practice.jsx'
-import Practice from './pages/Practice.jsx'
 
 export default function App() {
   return (
